@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.ben.thegallery.views.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+<com.example.ben.thegallery.views.SquareLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
 
     <ImageView
-        android:id="@+id/thumbnail_imageview"
+        android:id="@+id/thumbnails_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:padding="1dp"/>
 
 </com.example.ben.thegallery.views.SquareLinearLayout>
