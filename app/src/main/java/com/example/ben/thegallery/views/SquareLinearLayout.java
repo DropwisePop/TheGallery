@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
  */
 public class SquareLinearLayout extends LinearLayout {
 
+    //region Constructors
     public SquareLinearLayout(Context context) {
         super(context);
     }
@@ -20,11 +21,12 @@ public class SquareLinearLayout extends LinearLayout {
     public SquareLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+    //endregion
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, widthMeasureSpec);    //snap to width
 
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth()); // Snap to width
     }
+
 }
