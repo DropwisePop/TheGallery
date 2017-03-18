@@ -2,7 +2,9 @@ package com.example.ben.thegallery.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -11,6 +13,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,8 @@ import com.example.ben.thegallery.R;
 import com.example.ben.thegallery.adapters.FullscreenPagerAdapter;
 import com.example.ben.thegallery.data.GallerySettings;
 import com.example.ben.thegallery.data.GalleryUtil;
+
+import java.io.File;
 
 /**
  * Created by dropwisepop on 3/10/2017.
@@ -34,6 +39,7 @@ public class FullscreenActivity extends AppCompatActivity
     private int mPreviousPosition;
     private ViewPager mViewPager;
     private Toolbar mToolbar;
+    private Cursor mCursor;
     private boolean mToolbarShown;
     private FullscreenPagerAdapter mFullscreenAdapter;
     //endregion
@@ -108,6 +114,7 @@ public class FullscreenActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader loader, Cursor data) {
+        mCursor = data;
         if (sDestroyed) {
             setupUI(data);
             sDestroyed = false;
@@ -159,18 +166,30 @@ public class FullscreenActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /*if (MainToolbar.toolbarShown()) {
-            getMenuInflater().inflate(R.menu.menu_toolbar_main_on, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.menu_toolbar_main_off, menu);
-        }*/
+        Log.d("DEBUGGER-TAG", "onCreateOptionsMenu");
+        getMenuInflater().inflate(R.menu.menu_fullscreen, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //TODO: cases
+            case R.id.action_fullscreen_trash:
+                //TODO: the following few lines, here and elsewhere, are id to getUriFromMediastore
+                int dataIndex = mCursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+                mCursor.moveToPosition(position);
+                String path = mCursor.getString(mViewPager.getCurrentItem());
+                File toDelete = new File(path);
+                if (toDelete.exists()){
+                    if (toDelete.delete()){
+                        Log.d("DEBUGGER-TAG", "WAS DELETED");
+                    }
+                    else{
+                        Log.d("DEBUGGER-TAG", "WAS NOT DELETED");
+                    }
+                }
+                mFullscreenAdapter.notifyDataSetChanged();
+
             default:
                 return super.onOptionsItemSelected(item);
         }

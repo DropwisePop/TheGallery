@@ -164,7 +164,6 @@ public class ThumbnailActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
-
     //endregion
 
     //region Methods for Activity Interaction
